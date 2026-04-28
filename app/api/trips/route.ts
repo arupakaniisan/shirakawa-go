@@ -1,3 +1,5 @@
+export const dynamic = "force-dynamic";
+
 // Phase 2〜: 旅行一覧・作成
 import { NextRequest, NextResponse } from "next/server";
 

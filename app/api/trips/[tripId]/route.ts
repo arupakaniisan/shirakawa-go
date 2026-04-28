@@ -1,3 +1,5 @@
+export const dynamic = "force-dynamic";
+
 // Phase 2〜: 旅行詳細・更新
 import { NextRequest, NextResponse } from "next/server";
 
@@ -20,8 +22,8 @@ export async function PATCH(
 
 export async function DELETE(
   _req: NextRequest,
-  { params }: { params: { tripId: string } }
+  { params: _params }: { params: { tripId: string } }
 ) {
-  // TODO: Phase 2 — ITripRepository.deleteTrip(params.tripId)
+  // TODO: Phase 2 — ITripRepository.deleteTrip(_params.tripId)
   return NextResponse.json({ ok: true });
 }
