@@ -1,10 +1,12 @@
 "use client";
 
-import { Suspense, useState, useEffect, useCallback } from "react";
-import MapView from "@/components/MapView";
+import { useState, useEffect, useCallback } from "react";
+import dynamic from "next/dynamic";
 import StatusPanel from "@/components/StatusPanel";
 import UpdateFab from "@/components/UpdateFab";
 import { getVehicles, type Vehicle } from "@/lib/vehicleStorage";
+
+const MapView = dynamic(() => import("@/components/MapView"), { ssr: false });
 
 type DevicePosition = {
   vehicleId: string;
@@ -31,19 +33,17 @@ export default function MapPage() {
 
   return (
     <main style={{ position: "relative", height: "100dvh" }}>
-      <Suspense>
-        <MapView />
-        <StatusPanel
-          vehicles={vehicles}
-          positions={positions}
-          staleThresholdMinutes={STALE_THRESHOLD_MINUTES}
-        />
-        <UpdateFab
-          vehicleId={vehicles[0]?.id ?? ""}
-          isViewer={false}
-          onUpdated={fetchPositions}
-        />
-      </Suspense>
+      <MapView />
+      <StatusPanel
+        vehicles={vehicles}
+        positions={positions}
+        staleThresholdMinutes={STALE_THRESHOLD_MINUTES}
+      />
+      <UpdateFab
+        vehicleId={vehicles[0]?.id ?? ""}
+        isViewer={false}
+        onUpdated={fetchPositions}
+      />
     </main>
   );
 }
