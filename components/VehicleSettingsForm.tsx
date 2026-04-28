@@ -1,9 +1,11 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
 import { getVehicles, saveVehicles, type Vehicle } from "@/lib/vehicleStorage";
 
 export default function VehicleSettingsForm() {
+  const router = useRouter();
   const [vehicles, setVehicles] = useState<Vehicle[]>([]);
 
   useEffect(() => {
@@ -41,6 +43,7 @@ export default function VehicleSettingsForm() {
         </div>
       ))}
       <button onClick={handleSave}>保存</button>
+      <button onClick={() => router.back()}>戻る</button>
     </div>
   );
 }

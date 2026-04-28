@@ -1,9 +1,15 @@
-// 車両選択画面
+"use client";
+
+import { useState, useEffect } from "react";
 import Link from "next/link";
-import { getVehicles } from "@/lib/vehicleStorage";
+import { getVehicles, type Vehicle } from "@/lib/vehicleStorage";
 
 export default function VehicleSelectPage() {
-  const vehicles = getVehicles();
+  const [vehicles, setVehicles] = useState<Vehicle[]>([]);
+
+  useEffect(() => {
+    setVehicles(getVehicles());
+  }, []);
 
   return (
     <main>
