@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useCallback } from "react";
+import { Suspense, useState, useEffect, useCallback } from "react";
 import { useSearchParams } from "next/navigation";
 import dynamic from "next/dynamic";
 import StatusPanel from "@/components/StatusPanel";
@@ -18,7 +18,7 @@ type DevicePosition = {
 
 const STALE_THRESHOLD_MINUTES = 10;
 
-export default function MapPage() {
+function MapContent() {
   const searchParams = useSearchParams();
   const vehicleId = searchParams.get("vehicleId") ?? "";
   const isViewer = vehicleId === "viewer";
@@ -37,7 +37,7 @@ export default function MapPage() {
   }, [fetchPositions]);
 
   return (
-    <main style={{ position: "relative", height: "100dvh" }}>
+    <>
       <MapView />
       <StatusPanel
         vehicles={vehicles}
@@ -49,6 +49,16 @@ export default function MapPage() {
         isViewer={isViewer}
         onUpdated={fetchPositions}
       />
+    </>
+  );
+}
+
+export default function MapPage() {
+  return (
+    <main style={{ position: "relative", height: "100dvh" }}>
+      <Suspense>
+        <MapContent />
+      </Suspense>
     </main>
   );
 }
