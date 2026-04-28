@@ -34,7 +34,7 @@ Phase 2 → Phase 3 では実装クラスを差し替えるだけで移行でき
 | 地図ライブラリ | MapLibre GL JS |
 | 位置情報バックエンド | AWS Location Service v2（Tracker + API キー） |
 | Hosting | Vercel (Hobby プラン) |
-| 認証 | 合言葉 + HttpOnly Cookie（7 日間） |
+| 認証 | 合言葉 + HttpOnly Cookie（1 日間） |
 | 状態管理 | localStorage（車両名・色のみ） |
 | CI | GitHub Actions（lint + 型チェック + ビルド確認） |
 | CD | GitHub Actions → Vercel CLI |
