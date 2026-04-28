@@ -37,6 +37,9 @@ export default function AuthPage() {
           value={passphrase}
           onChange={(e) => setPassphrase(e.target.value)}
           placeholder="合言葉"
+          inputMode="text"
+          spellCheck="false"
+          autoComplete="off"
           required
         />
         <button type="submit" disabled={loading}>
