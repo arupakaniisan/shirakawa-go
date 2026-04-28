@@ -3,6 +3,7 @@ name: CI
 on:
   pull_request:
     branches:
+      - main
       - develop
 
 jobs:
@@ -36,3 +37,5 @@ jobs:
           AWS_TRACKER_NAME: dummy
           AWS_MAP_NAME: dummy
           STALE_THRESHOLD_MINUTES: 5
+          NEXT_PUBLIC_MAP_API_KEY: dummy
+          NEXT_PUBLIC_AWS_REGION: ap-northeast-1
