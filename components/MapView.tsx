@@ -30,7 +30,7 @@ export default function MapView({ vehicles, positions }: Props) {
     const region = process.env.NEXT_PUBLIC_AWS_REGION ?? "ap-northeast-1";
     const styleUrl =
       `https://maps.geo.${region}.amazonaws.com/v2/styles/Standard/descriptor` +
-      `?key=${apiKey}&language=ja`;
+      `?key=${apiKey}`;
 
     mapRef.current = new maplibregl.Map({
       container: containerRef.current,
@@ -39,7 +39,22 @@ export default function MapView({ vehicles, positions }: Props) {
       zoom: 7,
     });
 
-    mapRef.current.on("load", () => setMapLoaded(true));
+    mapRef.current.on("load", () => {
+      const style = mapRef.current!.getStyle();
+      style.layers.forEach((layer) => {
+        if (layer.type === "symbol") {
+          const layout = layer.layout as Record<string, unknown> | undefined;
+          if (layout?.["text-field"]) {
+            mapRef.current!.setLayoutProperty(layer.id, "text-field", [
+              "coalesce",
+              ["get", "name:ja"],
+              ["get", "name"],
+            ]);
+          }
+        }
+      });
+      setMapLoaded(true);
+    });
 
     return () => {
       mapRef.current?.remove();
