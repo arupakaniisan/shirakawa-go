@@ -30,7 +30,7 @@ export default function MapView({ vehicles, positions }: Props) {
     const region = process.env.NEXT_PUBLIC_AWS_REGION ?? "ap-northeast-1";
     const styleUrl =
       `https://maps.geo.${region}.amazonaws.com/v2/styles/Standard/descriptor` +
-      `?key=${apiKey}`;
+      `?key=${apiKey}&language=ja`;
 
     mapRef.current = new maplibregl.Map({
       container: containerRef.current,
