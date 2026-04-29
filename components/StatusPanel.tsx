@@ -89,9 +89,6 @@ export default function StatusPanel({ vehicles, positions }: Props) {
             {warn30 && pos && (
               <span style={{ display: "block", marginLeft: 20, fontSize: 13 }}>
                 🚨 30分以上通信なし
-                {otherActive
-                  ? "（他車は通信中）"
-                  : "（他車も30分以内の通信なし）"}
               </span>
             )}
             {!warn30 && warn5 && pos && (
