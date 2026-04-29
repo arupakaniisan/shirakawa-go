@@ -1,13 +1,27 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import maplibregl from "maplibre-gl";
 import "maplibre-gl/dist/maplibre-gl.css";
 import VehicleMarker from "./VehicleMarker";
+import type { Vehicle } from "@/lib/vehicleStorage";
 
-export default function MapView() {
+type DevicePosition = {
+  vehicleId: string;
+  latitude: number;
+  longitude: number;
+  receivedAt: string;
+};
+
+type Props = {
+  vehicles: Vehicle[];
+  positions: DevicePosition[];
+};
+
+export default function MapView({ vehicles, positions }: Props) {
   const mapRef = useRef<maplibregl.Map | null>(null);
   const containerRef = useRef<HTMLDivElement>(null);
+  const [mapLoaded, setMapLoaded] = useState(false);
 
   useEffect(() => {
     if (!containerRef.current || mapRef.current) return;
@@ -25,16 +39,33 @@ export default function MapView() {
       zoom: 7,
     });
 
+    mapRef.current.on("load", () => setMapLoaded(true));
+
     return () => {
       mapRef.current?.remove();
       mapRef.current = null;
+      setMapLoaded(false);
     };
   }, []);
 
   return (
     <>
       <div ref={containerRef} style={{ width: "100%", height: "100%" }} />
-      {/* TODO: VehicleMarker を positions 数分だけレンダリング */}
+      {mapLoaded &&
+        mapRef.current &&
+        positions.map((pos) => {
+          const vehicle = vehicles.find((v) => v.id === pos.vehicleId);
+          if (!vehicle) return null;
+          return (
+            <VehicleMarker
+              key={pos.vehicleId}
+              map={mapRef.current!}
+              vehicle={vehicle}
+              latitude={pos.latitude}
+              longitude={pos.longitude}
+            />
+          );
+        })}
     </>
   );
 }
