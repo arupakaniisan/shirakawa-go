@@ -1,7 +1,7 @@
 "use client";
 
 import { Suspense, useState, useEffect, useCallback } from "react";
-import { useSearchParams } from "next/navigation";
+import { useSearchParams, useRouter } from "next/navigation";
 import dynamic from "next/dynamic";
 import StatusPanel from "@/components/StatusPanel";
 import UpdateFab from "@/components/UpdateFab";
@@ -20,6 +20,7 @@ const STALE_THRESHOLD_MINUTES = 10;
 
 function MapContent() {
   const searchParams = useSearchParams();
+  const router = useRouter();
   const vehicleId = searchParams.get("vehicleId") ?? "";
   const isViewer = vehicleId === "viewer";
 
@@ -39,6 +40,24 @@ function MapContent() {
   return (
     <>
       <MapView vehicles={vehicles} positions={positions} />
+      <button
+        onClick={() => router.back()}
+        style={{
+          position: "absolute",
+          top: 16,
+          left: 16,
+          zIndex: 10,
+          padding: "8px 16px",
+          background: "white",
+          border: "none",
+          borderRadius: 8,
+          boxShadow: "0 2px 6px rgba(0,0,0,0.3)",
+          fontSize: 14,
+          cursor: "pointer",
+        }}
+      >
+        ← 戻る
+      </button>
       <StatusPanel
         vehicles={vehicles}
         positions={positions}
