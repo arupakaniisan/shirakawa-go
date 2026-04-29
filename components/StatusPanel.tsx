@@ -14,10 +14,27 @@ type Props = {
   positions: DevicePosition[];
 };
 
+function haversineDistance(a: DevicePosition, b: DevicePosition): number {
+  const R = 6371000;
+  const toRad = (deg: number) => (deg * Math.PI) / 180;
+  const dLat = toRad(b.latitude - a.latitude);
+  const dLon = toRad(b.longitude - a.longitude);
+  const sinDLat = Math.sin(dLat / 2);
+  const sinDLon = Math.sin(dLon / 2);
+  const c =
+    sinDLat * sinDLat +
+    Math.cos(toRad(a.latitude)) * Math.cos(toRad(b.latitude)) * sinDLon * sinDLon;
+  return R * 2 * Math.atan2(Math.sqrt(c), Math.sqrt(1 - c));
+}
+
+function formatDistance(meters: number): string {
+  if (meters >= 1000) return `${(meters / 1000).toFixed(1)} km`;
+  return `${Math.round(meters)} m`;
+}
+
 function elapsedMinutes(receivedAt: string): number {
   return (Date.now() - new Date(receivedAt).getTime()) / 1000 / 60;
 }
-
 function hasRecentCommunication(
   positions: DevicePosition[],
   excludeVehicleId: string,
@@ -29,6 +46,12 @@ function hasRecentCommunication(
 }
 
 export default function StatusPanel({ vehicles, positions }: Props) {
+  const posA = positions[0];
+  const posB = positions[1];
+  const distance =
+    posA && posB ? haversineDistance(posA, posB) : null;
+
+
   return (
     <div
       style={{
@@ -79,6 +102,19 @@ export default function StatusPanel({ vehicles, positions }: Props) {
           </div>
         );
       })}
+      {distance !== null && distance >= 1000 && (
+        <div
+          style={{
+            marginTop: 8,
+            paddingTop: 8,
+            borderTop: "1px solid #ddd",
+            fontSize: 14,
+            color: "#333",
+          }}
+        >
+          車間距離: {formatDistance(distance)}
+        </div>
+      )}
     </div>
   );
 }
