@@ -35,7 +35,6 @@ function formatDistance(meters: number): string {
 function elapsedMinutes(receivedAt: string): number {
   return (Date.now() - new Date(receivedAt).getTime()) / 1000 / 60;
 }
-
 function hasRecentCommunication(
   positions: DevicePosition[],
   excludeVehicleId: string,
@@ -51,6 +50,7 @@ export default function StatusPanel({ vehicles, positions }: Props) {
   const posB = positions[1];
   const distance =
     posA && posB ? haversineDistance(posA, posB) : null;
+
 
   return (
     <div
