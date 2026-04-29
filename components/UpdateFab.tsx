@@ -5,7 +5,7 @@ import { useState } from "react";
 type Props = {
   vehicleId: string;
   isViewer: boolean;
-  onUpdated: () => void;
+  onUpdated: () => Promise<void>;
 };
 
 export default function UpdateFab({ vehicleId, isViewer, onUpdated }: Props) {
@@ -35,7 +35,7 @@ export default function UpdateFab({ vehicleId, isViewer, onUpdated }: Props) {
         });
       }
 
-      onUpdated();
+      await onUpdated();
     } catch (err) {
       console.error(err);
       // TODO: GPS / API エラーをトースト表示
