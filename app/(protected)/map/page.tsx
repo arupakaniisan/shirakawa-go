@@ -44,7 +44,7 @@ function MapContent() {
         onClick={() => router.back()}
         style={{
           position: "absolute",
-          top: 16,
+          bottom: 16,
           left: 16,
           zIndex: 10,
           padding: "8px 16px",
