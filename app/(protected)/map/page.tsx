@@ -38,7 +38,7 @@ function MapContent() {
 
   return (
     <>
-      <MapView />
+      <MapView vehicles={vehicles} positions={positions} />
       <StatusPanel
         vehicles={vehicles}
         positions={positions}

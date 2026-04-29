@@ -29,6 +29,8 @@ export default function VehicleMarker({ map, vehicle, latitude, longitude }: Pro
     return () => {
       markerRef.current?.remove();
     };
+    // latitude/longitude の初期値は setLngLat で設定済み。位置更新は下の effect が担う
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [map, vehicle.color]);
 
   useEffect(() => {
