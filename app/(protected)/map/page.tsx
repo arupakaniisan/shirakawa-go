@@ -16,7 +16,6 @@ type DevicePosition = {
   receivedAt: string;
 };
 
-const STALE_THRESHOLD_MINUTES = 10;
 
 function MapContent() {
   const searchParams = useSearchParams();
@@ -58,11 +57,7 @@ function MapContent() {
       >
         ← 戻る
       </button>
-      <StatusPanel
-        vehicles={vehicles}
-        positions={positions}
-        staleThresholdMinutes={STALE_THRESHOLD_MINUTES}
-      />
+      <StatusPanel vehicles={vehicles} positions={positions} />
       <UpdateFab
         vehicleId={vehicleId}
         isViewer={isViewer}
