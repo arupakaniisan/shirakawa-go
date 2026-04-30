@@ -22,6 +22,7 @@ export default function MapView({ vehicles, positions }: Props) {
   const mapRef = useRef<maplibregl.Map | null>(null);
   const containerRef = useRef<HTMLDivElement>(null);
   const [mapLoaded, setMapLoaded] = useState(false);
+  const hasInitialFlyRef = useRef(false);
 
   useEffect(() => {
     if (!containerRef.current || mapRef.current) return;
@@ -121,6 +122,25 @@ export default function MapView({ vehicles, positions }: Props) {
       setMapLoaded(false);
     };
   }, []);
+
+  useEffect(() => {
+    if (!mapLoaded || !mapRef.current || positions.length === 0 || hasInitialFlyRef.current) return;
+
+    hasInitialFlyRef.current = true;
+
+    const lngSum = positions.reduce((s, p) => s + p.longitude, 0);
+    const latSum = positions.reduce((s, p) => s + p.latitude, 0);
+    const centerLng = lngSum / positions.length;
+    const centerLat = latSum / positions.length;
+
+    mapRef.current.flyTo({
+      center: [centerLng, centerLat],
+      zoom: 13,
+      bearing: 0,
+      pitch: 0,
+      duration: 1200,
+    });
+  }, [mapLoaded, positions]);
 
   return (
     <>
