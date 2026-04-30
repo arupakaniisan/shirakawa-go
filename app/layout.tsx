@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
+  metadataBase: new URL("https://shirakawa-go-nabe.vercel.app"),
   title: "shirakawa-go",
   description:
     "合宿・旅行・イベントで活躍！複数台の車の位置をリアルタイムで共有。「あいつら今どこ？」をゼロにする、みんなのドライブ位置共有アプリ。",
