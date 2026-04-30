@@ -92,6 +92,16 @@ export default function MapView({ vehicles, positions }: Props) {
               ["get", "name"],
             ]);
           }
+
+          // 道路番号の盾アイコン（青い逆三角・緑の長方形）を除去して番号だけ残す
+          // 大文字小文字を問わず highway / road / shield / route を含むレイヤーを対象
+          const id = layer.id.toLowerCase();
+          if (id.includes("highway") || id.includes("road") || id.includes("shield") || id.includes("route")) {
+            mapRef.current!.setLayoutProperty(layer.id, "icon-image", null);
+            mapRef.current!.setPaintProperty(layer.id, "text-color", "#333333");
+            mapRef.current!.setPaintProperty(layer.id, "text-halo-color", "#FFFFFF");
+            mapRef.current!.setPaintProperty(layer.id, "text-halo-width", 2);
+          }
         }
 
         for (const { pattern, minZoom } of zoomOverrides) {
