@@ -160,13 +160,10 @@ export default function MapView({ vehicles, positions }: Props) {
 
     hasInitialFlyRef.current = true;
 
-    const lngSum = positions.reduce((s, p) => s + p.longitude, 0);
-    const latSum = positions.reduce((s, p) => s + p.latitude, 0);
-    const centerLng = lngSum / positions.length;
-    const centerLat = latSum / positions.length;
+    const vehicleA = positions.find((p) => p.vehicleId === "vehicle-001") ?? positions[0];
 
     mapRef.current.flyTo({
-      center: [centerLng, centerLat],
+      center: [vehicleA.longitude, vehicleA.latitude],
       zoom: 13,
       bearing: 0,
       pitch: 0,

@@ -50,8 +50,9 @@ export default function UpdateFab({ vehicleId, isViewer, onUpdated, onError }: P
         try {
           position = await new Promise<GeolocationPosition>((resolve, reject) => {
             navigator.geolocation.getCurrentPosition(resolve, reject, {
-              enableHighAccuracy: false,
+              enableHighAccuracy: true,
               timeout: 10000,
+              maximumAge: 5000,
             });
           });
         } catch (err) {
